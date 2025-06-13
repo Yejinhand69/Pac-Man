@@ -11,10 +11,9 @@ public class NodeController : MonoBehaviour
     public GameObject nodeRight;
     public GameObject nodeUp;
     public GameObject nodeDown;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //Down
         RaycastHit2D[] hitsDown;
         hitsDown = Physics2D.RaycastAll(transform.position, -Vector2.up);
 
@@ -28,7 +27,7 @@ public class NodeController : MonoBehaviour
             }
         }
 
-        //-----
+        //Up
         RaycastHit2D[] hitsUp;
         hitsUp = Physics2D.RaycastAll(transform.position, Vector2.up);
 
@@ -42,7 +41,7 @@ public class NodeController : MonoBehaviour
             }
         }
 
-        //-----
+        //Right
         RaycastHit2D[] hitsRight;
         hitsRight = Physics2D.RaycastAll(transform.position, Vector2.right);
 
@@ -56,7 +55,7 @@ public class NodeController : MonoBehaviour
             }
         }
 
-        //-----
+        //Left
         RaycastHit2D[] hitsLeft;
         hitsLeft = Physics2D.RaycastAll(transform.position, -Vector2.right);
 
@@ -71,9 +70,27 @@ public class NodeController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public GameObject GetNodeFromDirection(string direction)
     {
-        
+        if(direction == "left" && canMoveLeft)
+        {
+            return nodeLeft;
+        }
+        else if (direction == "right" && canMoveRight)
+        {
+            return nodeRight;
+        }
+        else if (direction == "up" && canMoveUp)
+        {
+            return nodeUp;
+        }
+        else if (direction == "down" && canMoveDown)
+        {
+            return nodeDown;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

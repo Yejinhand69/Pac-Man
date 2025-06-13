@@ -8,9 +8,10 @@ public class SpawnNodes : MonoBehaviour
 
     void Start()
     {
+        //nothing here for now
     }
     void Update()
     {
-        
+        //nothing here for now
     }
 }

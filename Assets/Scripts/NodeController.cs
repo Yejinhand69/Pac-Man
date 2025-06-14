@@ -2,20 +2,37 @@ using UnityEngine;
 
 public class NodeController : MonoBehaviour
 {
+    [Header("Node Movement Flags")]
     [SerializeField] private bool canMoveLeft = false;
     [SerializeField] private bool canMoveRight = false;
     [SerializeField] private bool canMoveUp = false;
     [SerializeField] private bool canMoveDown = false;
 
+    [Header("Node References")]
     [SerializeField] private GameObject nodeLeft;
     [SerializeField] private GameObject nodeRight;
     [SerializeField] private GameObject nodeUp;
     [SerializeField] private GameObject nodeDown;
 
+    [Header("Warp Nodes")]
     public bool isWarpRightNode = false;
     public bool isWarpLeftNode = false;
-    void Start()
+
+    [Header("Pellet Node")]
+    public bool isPelletNode = false;
+    public bool hasPellet = false;
+
+    [Header("Pellet Sprite")]
+    public SpriteRenderer pelletSprite;
+    void Awake()
     {
+        if(transform.childCount > 0)
+        {
+            hasPellet = true;
+            isPelletNode = true;
+            pelletSprite = GetComponentInChildren<SpriteRenderer>();
+        }
+
         //Down
         RaycastHit2D[] hitsDown;
         hitsDown = Physics2D.RaycastAll(transform.position, -Vector2.up);
@@ -94,6 +111,15 @@ public class NodeController : MonoBehaviour
         else
         {
             return null;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") && isPelletNode)
+        {
+            hasPellet = false;
+            pelletSprite.enabled = false;
         }
     }
 }

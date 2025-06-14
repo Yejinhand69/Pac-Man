@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class NodeController : MonoBehaviour
 {
+    [Header("Game Manager")]
+    public GameManager gameManager;
+
     [Header("Node Movement Flags")]
     [SerializeField] private bool canMoveLeft = false;
     [SerializeField] private bool canMoveRight = false;
@@ -26,6 +29,8 @@ public class NodeController : MonoBehaviour
     public SpriteRenderer pelletSprite;
     void Awake()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         if(transform.childCount > 0)
         {
             hasPellet = true;
@@ -116,10 +121,11 @@ public class NodeController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && isPelletNode)
+        if (collision.CompareTag("Player") && hasPellet)
         {
             hasPellet = false;
             pelletSprite.enabled = false;
+            gameManager.CollectedPellet(this);
         }
     }
 }

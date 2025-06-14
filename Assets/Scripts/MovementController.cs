@@ -13,6 +13,11 @@ public class MovementController : MonoBehaviour
     [SerializeField] private string direction = "";
     public string lastMovingDirection = "";
 
+    private void Awake()
+    {
+        lastMovingDirection = "left";
+    }
+
     void Update()
     {
         NodeController currentNodeController = currentNode.GetComponent<NodeController>();

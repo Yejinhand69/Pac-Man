@@ -1,12 +1,17 @@
+using System;
 using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
+
     [SerializeField] private GameObject currentNode;
     [SerializeField] private float speed = 4f;
 
     [SerializeField] private string direction = "";
     [SerializeField] private string lastMovingDirection = "";
+
+    [SerializeField] private bool canWarp = true;
 
     void Update()
     {
@@ -25,22 +30,45 @@ public class MovementController : MonoBehaviour
 
         if (transform.position.x == currentNode.transform.position.x && transform.position.y == currentNode.transform.position.y || reverseDirection)
         {
-            GameObject newNode = currentNodeController.GetNodeFromDirection(direction);
-
-            if(newNode != null)
+            if(currentNodeController.isWarpLeftNode && canWarp)
             {
-                currentNode = newNode;
-                lastMovingDirection = direction;
+                currentNode = gameManager.rightWarpNode;
+                direction = "left";
+                lastMovingDirection = "left";
+                transform.position = currentNode.transform.position;
+                canWarp = false; 
+            }
+            else if(currentNodeController.isWarpRightNode && canWarp)
+            {
+                currentNode = gameManager.leftWarpNode;
+                direction = "right";
+                lastMovingDirection = "right";
+                transform.position = currentNode.transform.position;
+                canWarp = false;
             }
             else
             {
-                direction = lastMovingDirection;
-                newNode = currentNodeController.GetNodeFromDirection(direction);
-                if(newNode != null)
+                GameObject newNode = currentNodeController.GetNodeFromDirection(direction);
+
+                if (newNode != null)
                 {
                     currentNode = newNode;
+                    lastMovingDirection = direction;
+                }
+                else
+                {
+                    direction = lastMovingDirection;
+                    newNode = currentNodeController.GetNodeFromDirection(direction);
+                    if (newNode != null)
+                    {
+                        currentNode = newNode;
+                    }
                 }
             }
+        }
+        else
+        {
+            canWarp = true; 
         }
     }
 

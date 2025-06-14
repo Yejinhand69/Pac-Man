@@ -17,9 +17,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int score = 0;
     [SerializeField] private TextMeshProUGUI scoreText;
 
+    [Header("Pacman Reference")]
+    public GameObject pacman;
+
+    [Header("Ghost Nodes")]
+    public GameObject ghostNodeLeft;
+    public GameObject ghostNodeRight;
+    public GameObject ghostNodeCenter;
+    public GameObject ghostNodeStart;
+
     private void Awake()
     {
         sirenSfx.Play();
+        ghostNodeStart.GetComponent<NodeController>().isGhostStartingNode = true;
     }
 
     public void AddToScore(int amount)

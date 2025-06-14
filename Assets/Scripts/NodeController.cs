@@ -6,16 +6,16 @@ public class NodeController : MonoBehaviour
     public GameManager gameManager;
 
     [Header("Node Movement Flags")]
-    [SerializeField] private bool canMoveLeft = false;
-    [SerializeField] private bool canMoveRight = false;
-    [SerializeField] private bool canMoveUp = false;
-    [SerializeField] private bool canMoveDown = false;
+    public bool canMoveLeft = false;
+    public bool canMoveRight = false;
+    public bool canMoveUp = false;
+    public bool canMoveDown = false;
 
     [Header("Node References")]
-    [SerializeField] private GameObject nodeLeft;
-    [SerializeField] private GameObject nodeRight;
-    [SerializeField] private GameObject nodeUp;
-    [SerializeField] private GameObject nodeDown;
+    public GameObject nodeLeft;
+    public GameObject nodeRight;
+    public GameObject nodeUp;
+    public GameObject nodeDown;
 
     [Header("Warp Nodes")]
     public bool isWarpRightNode = false;
@@ -27,6 +27,8 @@ public class NodeController : MonoBehaviour
 
     [Header("Pellet Sprite")]
     public SpriteRenderer pelletSprite;
+
+    public bool isGhostStartingNode = false;    
     void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -92,6 +94,12 @@ public class NodeController : MonoBehaviour
                 canMoveLeft = true;
                 nodeLeft = hitsLeft[i].collider.gameObject;
             }
+        }
+
+        if(isGhostStartingNode)
+        {
+            canMoveDown = true;
+            nodeDown = gameManager.ghostNodeCenter;
         }
     }
 

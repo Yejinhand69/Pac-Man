@@ -6,16 +6,17 @@ public class MovementController : MonoBehaviour
     [SerializeField] private GameManager gameManager;
 
     [Header("Variables")]
-    [SerializeField] private GameObject currentNode;
+    public GameObject currentNode;
     [SerializeField] private float speed = 4f;
     [SerializeField] private bool canWarp = true;
 
     [SerializeField] private string direction = "";
     public string lastMovingDirection = "";
+    public bool isGhost = false;
 
     private void Awake()
     {
-        lastMovingDirection = "left";
+        //lastMovingDirection = "left";
     }
 
     void Update()
@@ -35,6 +36,11 @@ public class MovementController : MonoBehaviour
 
         if (transform.position.x == currentNode.transform.position.x && transform.position.y == currentNode.transform.position.y || reverseDirection)
         {
+            if(isGhost)
+            {
+                GetComponent<EnemyController>().ReachedCenterOfNode(currentNodeController);
+            }
+
             if(currentNodeController.isWarpLeftNode && canWarp)
             {
                 currentNode = gameManager.rightWarpNode;

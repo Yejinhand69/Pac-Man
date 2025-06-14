@@ -7,9 +7,10 @@ public class PlayerController : MonoBehaviour
     [Header("Sprite Renderer Reference")]
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
-    void Start()
+    void Awake()
     {
         movementController = GetComponent<MovementController>();
+        movementController.lastMovingDirection = "left";
     }
     void Update()
     {

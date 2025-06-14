@@ -5,13 +5,13 @@ public class MovementController : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
 
+    [Header("Variables")]
     [SerializeField] private GameObject currentNode;
     [SerializeField] private float speed = 4f;
+    [SerializeField] private bool canWarp = true;
 
     [SerializeField] private string direction = "";
-    [SerializeField] private string lastMovingDirection = "";
-
-    [SerializeField] private bool canWarp = true;
+    public string lastMovingDirection = "";
 
     void Update()
     {

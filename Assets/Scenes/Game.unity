@@ -41253,6 +41253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1317278642}
   - component: {fileID: 1317278643}
+  - component: {fileID: 1317278644}
   m_Layer: 0
   m_Name: PacManSprite
   m_TagString: Untagged
@@ -41330,6 +41331,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1317278644
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317278641}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 844e085d39ed5f84d90b5e87875b625b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1325490763
 GameObject:
   m_ObjectHideFlags: 0
@@ -56471,6 +56494,7 @@ MonoBehaviour:
   speed: 4
   direction: 
   lastMovingDirection: 
+  canWarp: 1
 --- !u!114 &1781732392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56483,6 +56507,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9076c4de2347726468c67f9641d0af42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 1317278643}
+  animator: {fileID: 1317278644}
 --- !u!1 &1786515280
 GameObject:
   m_ObjectHideFlags: 0

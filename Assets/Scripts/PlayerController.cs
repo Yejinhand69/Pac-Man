@@ -3,12 +3,18 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     MovementController movementController;
+
+    [Header("Sprite Renderer Reference")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Animator animator;
     void Start()
     {
         movementController = GetComponent<MovementController>();
     }
     void Update()
     {
+        animator.SetBool("moving", true);
+
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             movementController.SetDirection("left");
@@ -25,5 +31,30 @@ public class PlayerController : MonoBehaviour
         {
             movementController.SetDirection("down");
         }
+
+        bool flipX = false;
+        bool flipY = false;
+
+        if(movementController.lastMovingDirection == "left")
+        {
+            animator.SetInteger("direction", 0);    
+        }
+        else if (movementController.lastMovingDirection == "right")
+        {
+            animator.SetInteger("direction", 0);
+            flipX = true;
+        }
+        else if (movementController.lastMovingDirection == "up")
+        {
+            animator.SetInteger("direction", 1);
+        }
+        else if (movementController.lastMovingDirection == "down")
+        {
+            animator.SetInteger("direction", 1);
+            flipY = true;
+        }
+
+        spriteRenderer.flipX = flipX;
+        spriteRenderer.flipY = flipY;
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -26,10 +27,18 @@ public class GameManager : MonoBehaviour
     public GameObject ghostNodeCenter;
     public GameObject ghostNodeStart;
 
+    [Header("Coroutine")]
+    private Coroutine readyToLeaveHomeCoroutine;
+
+    [Header("Enemies")]
+    [SerializeField] private EnemyController[] enemies;
+
     private void Awake()
     {
         sirenSfx.Play();
-        ghostNodeStart.GetComponent<NodeController>().isGhostStartingNode = true;
+        //ghostNodeStart.GetComponent<NodeController>().isGhostStartingNode = true;
+
+        readyToLeaveHomeCoroutine = StartCoroutine(ReadyToLeaveHome());
     }
 
     public void AddToScore(int amount)
@@ -52,5 +61,15 @@ public class GameManager : MonoBehaviour
         }
 
         AddToScore(1);
+    }
+
+    private IEnumerator ReadyToLeaveHome()
+    {
+        yield return new WaitForSeconds(2f);
+
+        foreach(var ghost in enemies)
+        {
+            ghost.readyToLeaveHome = true;
+        }
     }
 }

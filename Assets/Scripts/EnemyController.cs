@@ -38,6 +38,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform redGhostTransform;
 
+    [Header("Developer Testing Kit")]
+    public bool forceRespawn = false;
+
     private void Awake()
     {
         movementController = GetComponent<MovementController>();
@@ -65,6 +68,15 @@ public class EnemyController : MonoBehaviour
 
         movementController.currentNode = startingNode;
         transform.position = startingNode.transform.position;
+    }
+
+    private void Update()
+    {
+        if(forceRespawn)
+        {
+            ghostNodesStates = GhostNodesStatesEnum.respawning;
+            forceRespawn = false;
+        }
     }
 
     public void ReachedCenterOfNode(NodeController nodeController)
@@ -100,6 +112,41 @@ public class EnemyController : MonoBehaviour
         else if (ghostNodesStates == GhostNodesStatesEnum.respawning)
         {
             //Determine quickest direction to home
+
+            //Check if reached home
+            if(movementController.currentNode == startingNode)
+            {
+                Debug.Log("<color=green>Reached home node for ghost: </color>" + ghostType);
+                ghostNodesStates = GhostNodesStatesEnum.startNode;
+                movementController.SetDirection("up");
+                return;
+            }
+
+            //Move towards home
+            Vector3 targetPosition = startingNode.transform.position;
+            NodeController currentNodeController = movementController.currentNode.GetComponent<NodeController>();
+            var neighbours = currentNodeController.GetAvailableDirections();
+
+            float shortestDistance = Mathf.Infinity;
+            string bestDirection = movementController.lastMovingDirection;
+
+            foreach (var (dir, nodeObj) in neighbours)
+            {
+                if (IsOppositeDirection(dir, movementController.lastMovingDirection))
+                {
+                    continue;
+                }
+
+                float distance = Vector3.Distance(nodeObj.transform.position, targetPosition);
+                
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    bestDirection = dir;
+                }
+            }
+
+            movementController.SetDirection(bestDirection);
         }
         else
         {

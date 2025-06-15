@@ -79,6 +79,7 @@ public class EnemyController : MonoBehaviour
     {
         if(testRespawn == true)
         {
+            readyToLeaveHome = false;
             ghostNodesStates = GhostNodesStatesEnum.respawning;
             testRespawn = false;
         }
@@ -108,7 +109,7 @@ public class EnemyController : MonoBehaviour
         }
         else if (ghostNodesStates == GhostNodesStatesEnum.respawning)
         {
-            Debug.Log("<color=green>Respawning ghost...</color>");
+            Debug.Log("<color=green>Respawning ghosts...</color>");
 
             string direction = "";
 
@@ -159,21 +160,25 @@ public class EnemyController : MonoBehaviour
                 {
                     ghostNodesStates = GhostNodesStatesEnum.centerNode;
                     movementController.SetDirection("right");
+                    Debug.Log("<color=blue>Ghost is leaving home, moving to center node</color>");
                 }
                 else if (ghostNodesStates == GhostNodesStatesEnum.rightNode)
                 {
                     ghostNodesStates = GhostNodesStatesEnum.centerNode;
                     movementController.SetDirection("left");
+                    Debug.Log("<color=blue>Ghost is leaving home, moving to center node</color>");
                 }
                 else if (ghostNodesStates == GhostNodesStatesEnum.centerNode)
                 {
                     ghostNodesStates = GhostNodesStatesEnum.startNode;
                     movementController.SetDirection("up");
+                    Debug.Log("<color=blue>Ghost is leaving home, moving to start node</color>");
                 }
                 else if(ghostNodesStates == GhostNodesStatesEnum.startNode)
                 {
                     ghostNodesStates = GhostNodesStatesEnum.movingInNodes;
                     movementController.SetDirection("left");
+                    Debug.Log("<color=blue>Ghost is leaving home, moving to left node</color>");
                 }
             }
         }

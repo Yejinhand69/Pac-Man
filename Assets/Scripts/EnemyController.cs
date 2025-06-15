@@ -11,9 +11,6 @@ public class EnemyController : MonoBehaviour
         startNode,
         movingInNodes
     }
-
-    public GhostNodesStatesEnum ghostNodesStates;
-
     public enum GhostType
     {
         red,
@@ -22,19 +19,22 @@ public class EnemyController : MonoBehaviour
         orange
     }
 
+    [Header("GhostNodesStates/Type")]
+    public GhostNodesStatesEnum ghostNodesStates;
     public GhostType ghostType;
 
+    [Header("GhostNodes")]
     public GameObject ghostNodeLeft;
     public GameObject ghostNodeRight;
     public GameObject ghostNodeCenter;
     public GameObject ghostNodeStart;
 
+    [Header("Movement Controller")]
     public MovementController movementController;
 
+    [Header("Variables")]
     public GameObject startingNode;
-
     public bool readyToLeaveHome = false;
-
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform redGhostTransform;
 

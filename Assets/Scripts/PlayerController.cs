@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement Controller")]
     MovementController movementController;
 
     [Header("Sprite Renderer Reference")]

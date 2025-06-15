@@ -28,6 +28,7 @@ public class NodeController : MonoBehaviour
     [Header("Pellet Sprite")]
     public SpriteRenderer pelletSprite;
 
+    [Header("Boolean")]
     public bool isGhostStartingNode = false;    
     void Awake()
     {
@@ -40,7 +41,7 @@ public class NodeController : MonoBehaviour
             pelletSprite = GetComponentInChildren<SpriteRenderer>();
         }
 
-        //Down
+        //-----Raycast down-----//
         RaycastHit2D[] hitsDown;
         hitsDown = Physics2D.RaycastAll(transform.position, -Vector2.up);
 
@@ -54,7 +55,7 @@ public class NodeController : MonoBehaviour
             }
         }
 
-        //Up
+        //-----Raycast up-----//
         RaycastHit2D[] hitsUp;
         hitsUp = Physics2D.RaycastAll(transform.position, Vector2.up);
 
@@ -68,7 +69,7 @@ public class NodeController : MonoBehaviour
             }
         }
 
-        //Right
+        //-----Raycast right-----//
         RaycastHit2D[] hitsRight;
         hitsRight = Physics2D.RaycastAll(transform.position, Vector2.right);
 
@@ -82,7 +83,7 @@ public class NodeController : MonoBehaviour
             }
         }
 
-        //Left
+        //-----Raycast left-----//
         RaycastHit2D[] hitsLeft;
         hitsLeft = Physics2D.RaycastAll(transform.position, -Vector2.right);
 
@@ -105,26 +106,11 @@ public class NodeController : MonoBehaviour
 
     public GameObject GetNodeFromDirection(string direction)
     {
-        if(direction == "left" && canMoveLeft)
-        {
-            return nodeLeft;
-        }
-        else if (direction == "right" && canMoveRight)
-        {
-            return nodeRight;
-        }
-        else if (direction == "up" && canMoveUp)
-        {
-            return nodeUp;
-        }
-        else if (direction == "down" && canMoveDown)
-        {
-            return nodeDown;
-        }
-        else
-        {
-            return null;
-        }
+        if      (direction == "left" && canMoveLeft) return nodeLeft;
+        else if (direction == "right" && canMoveRight) return nodeRight;
+        else if (direction == "up" && canMoveUp) return nodeUp;
+        else if (direction == "down" && canMoveDown) return nodeDown;
+        else return null;
     }
 
     public (string direction, GameObject node)[] GetAvailableDirections()

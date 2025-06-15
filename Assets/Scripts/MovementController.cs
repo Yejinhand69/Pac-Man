@@ -3,21 +3,16 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
+    [Header("Game Manager Reference")]
     [SerializeField] private GameManager gameManager;
 
     [Header("Variables")]
     public GameObject currentNode;
     [SerializeField] private float speed = 4f;
     [SerializeField] private bool canWarp = true;
-
     [SerializeField] private string direction = "";
     public string lastMovingDirection = "";
     public bool isGhost = false;
-
-    private void Awake()
-    {
-        //lastMovingDirection = "left";
-    }
 
     void Update()
     {
@@ -96,22 +91,10 @@ public class MovementController : MonoBehaviour
 
     public Vector2 GetCurrentDirection()
     {
-        if (direction == "left")
-        {
-            return Vector2.left;
-        }
-        else if (direction == "right")
-        {
-            return Vector2.right;
-        }
-        else if (direction == "up")
-        {
-            return Vector2.up;
-        }
-        else if (direction == "down")
-        {
-            return Vector2.down;
-        }
+        if (direction == "left") return Vector2.left;
+        else if (direction == "right") return Vector2.right;
+        else if (direction == "up") return Vector2.up;
+        else if (direction == "down") return Vector2.down;
         return Vector2.zero;
     }
     public string GetDirectionFromVector(Vector3 direction)
@@ -121,6 +104,6 @@ public class MovementController : MonoBehaviour
         if (Vector3.Dot(direction, Vector3.down) > 0.9f) return "down";
         if (Vector3.Dot(direction, Vector3.left) > 0.9f) return "left";
         if (Vector3.Dot(direction, Vector3.right) > 0.9f) return "right";
-        return "left"; //fallback
+        return "left"; 
     }
 }

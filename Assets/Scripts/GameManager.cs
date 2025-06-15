@@ -33,12 +33,16 @@ public class GameManager : MonoBehaviour
     [Header("Enemies")]
     [SerializeField] private EnemyController[] enemies;
 
+    [Header("UI References")]
+    [SerializeField] private GameObject ghostAreOutText;
+
     private void Awake()
     {
         sirenSfx.Play();
         //ghostNodeStart.GetComponent<NodeController>().isGhostStartingNode = true;
 
         readyToLeaveHomeCoroutine = StartCoroutine(ReadyToLeaveHome());
+        ghostAreOutText.SetActive(false);
     }
 
     public void AddToScore(int amount)
@@ -65,11 +69,17 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ReadyToLeaveHome()
     {
-        yield return new WaitForSeconds(2f);
+        //Wait for 5 seconds before allowing ghosts to leave their home
+        yield return new WaitForSeconds(5f);
 
-        foreach(var ghost in enemies)
+        //Let the ghosts know they are ready to leave home
+        foreach (var ghost in enemies)
         {
             ghost.readyToLeaveHome = true;
+            ghostAreOutText.SetActive(true);
         }
+
+        yield return new WaitForSeconds(3f);
+        ghostAreOutText.SetActive(false);
     }
 }

@@ -119,6 +119,22 @@ public class NodeController : MonoBehaviour
         }
     }
 
+    public (string direction, GameObject node)[] GetAvailableDirections()
+    {
+        var directions = new System.Collections.Generic.List<(string, GameObject)>();
+
+        if (canMoveLeft && nodeLeft != null)
+            directions.Add(("left", nodeLeft));
+        if (canMoveRight && nodeRight != null)
+            directions.Add(("right", nodeRight));
+        if (canMoveUp && nodeUp != null)
+            directions.Add(("up", nodeUp));
+        if (canMoveDown && nodeDown != null)
+            directions.Add(("down", nodeDown));
+
+        return directions.ToArray();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && hasPellet)

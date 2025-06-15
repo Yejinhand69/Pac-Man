@@ -35,6 +35,9 @@ public class EnemyController : MonoBehaviour
 
     public bool readyToLeaveHome = false;
 
+    [SerializeField] private Transform playerTransform;
+    [SerializeField] private Transform redGhostTransform;
+
     private void Awake()
     {
         movementController = GetComponent<MovementController>();
@@ -61,6 +64,7 @@ public class EnemyController : MonoBehaviour
         }
 
         movementController.currentNode = startingNode;
+        transform.position = startingNode.transform.position;
     }
 
     public void ReachedCenterOfNode(NodeController nodeController)
@@ -68,6 +72,30 @@ public class EnemyController : MonoBehaviour
         if (ghostNodesStates == GhostNodesStatesEnum.movingInNodes)
         {
             //Determine next nodes to go to
+            Vector3 targetPosition = GetTargetPosition();
+            NodeController currentNodeController = movementController.currentNode.GetComponent<NodeController>();
+            var neighbours = currentNodeController.GetAvailableDirections();
+
+            float shortestDistance = Mathf.Infinity;
+            string bestDirection = movementController.lastMovingDirection;
+
+            foreach (var (dir, nodeObj) in neighbours)
+            {
+                if(IsOppositeDirection(dir, movementController.lastMovingDirection))
+                {
+                    continue; 
+                }
+                float distance = Vector3.Distance(nodeObj.transform.position, targetPosition); 
+
+                if(distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    bestDirection = dir;
+                }
+            }
+
+            movementController.SetDirection(bestDirection);
+
         }
         else if (ghostNodesStates == GhostNodesStatesEnum.respawning)
         {
@@ -100,5 +128,46 @@ public class EnemyController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private Vector3 GetTargetPosition()
+    {
+        switch(ghostType)
+        {
+            case GhostType.red:
+                return playerTransform.position;
+
+            case GhostType.pink:
+                return playerTransform.position + (Vector3)(movementController.GetCurrentDirection().normalized * 4f);
+
+            case GhostType.blue:
+                if(redGhostTransform != null)
+                {
+                    Vector3 pacManOffset = playerTransform.position + (Vector3)(movementController.GetCurrentDirection().normalized * 2f);
+                    Vector3 diff = pacManOffset - redGhostTransform.position;
+                    return redGhostTransform.position + diff * 2;
+                }
+                return playerTransform.position;
+
+            case GhostType.orange:
+                float distance = Vector3.Distance(transform.position, playerTransform.position);
+                if(distance > 8f)
+                {
+                    return playerTransform.position;
+                }
+                else
+                {
+                    return ghostNodeRight.transform.position;
+                }
+        }
+        return playerTransform.position;
+    }
+
+    private bool IsOppositeDirection(string a, string b)
+    {
+        return (a == "left" && b == "right")
+            || (a == "right" && b == "left")
+            || (a == "up" && b == "down")
+            || (a == "down" && b == "up");
     }
 }

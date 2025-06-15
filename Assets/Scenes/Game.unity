@@ -37008,7 +37008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostNodesStates: 0
-  ghostType: 3
+  ghostType: 0
   ghostNodeLeft: {fileID: 1404763034}
   ghostNodeRight: {fileID: 885551184}
   ghostNodeCenter: {fileID: 33874392}
@@ -37016,6 +37016,8 @@ MonoBehaviour:
   movementController: {fileID: 0}
   startingNode: {fileID: 0}
   readyToLeaveHome: 0
+  playerTransform: {fileID: 1781732390}
+  redGhostTransform: {fileID: 1124648177}
 --- !u!4 &1124648177
 Transform:
   m_ObjectHideFlags: 0

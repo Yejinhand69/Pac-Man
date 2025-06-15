@@ -87,4 +87,34 @@ public class MovementController : MonoBehaviour
     {
         direction = newDirection;
     }
+
+    public Vector2 GetCurrentDirection()
+    {
+        if (direction == "left")
+        {
+            return Vector2.left;
+        }
+        else if (direction == "right")
+        {
+            return Vector2.right;
+        }
+        else if (direction == "up")
+        {
+            return Vector2.up;
+        }
+        else if (direction == "down")
+        {
+            return Vector2.down;
+        }
+        return Vector2.zero;
+    }
+    public string GetDirectionFromVector(Vector3 direction)
+    {
+        direction = direction.normalized;
+        if (Vector3.Dot(direction, Vector3.up) > 0.9f) return "up";
+        if (Vector3.Dot(direction, Vector3.down) > 0.9f) return "down";
+        if (Vector3.Dot(direction, Vector3.left) > 0.9f) return "left";
+        if (Vector3.Dot(direction, Vector3.right) > 0.9f) return "right";
+        return "left"; //fallback
+    }
 }

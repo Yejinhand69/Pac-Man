@@ -1,7 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IGameEventListener
 {
     [Header("Movement Controller")]
     MovementController movementController;
@@ -12,11 +13,44 @@ public class PlayerController : MonoBehaviour
 
     [Header("Collision Detection")]
     [SerializeField] private bool hasCollided = false;
+
+    [Header("Boolean")]
+    [SerializeField] private bool hasPowerUp = false;
+
+    [Header("Game Event")]
+    [SerializeField] private GameEvent frightenedListener;
     void Awake()
     {
         movementController = GetComponent<MovementController>();
         movementController.lastMovingDirection = "left";
         hasCollided = false;
+        hasPowerUp = false;
+    }
+
+    private void OnEnable()
+    {
+        frightenedListener.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        frightenedListener.UnregisterListener(this);
+    }
+
+    public void OnEventRaised(GameEvent gameEvent, Component sender, object[] args)
+    {
+        if (gameEvent == frightenedListener)
+        {
+            StartCoroutine(PowerUpCoroutine());
+        }
+    }
+
+    private IEnumerator PowerUpCoroutine()
+    {
+        hasPowerUp = true;
+        
+        yield return new WaitForSeconds(3f);
+
+        hasPowerUp = false;
     }
     void Update()
     {
@@ -67,12 +101,19 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Enemy") && hasCollided == false)
+        //Player losing state
+        if(collision.CompareTag("Enemy") && hasCollided == false && hasPowerUp == false)
         {
             //Game restart logic here
             hasCollided = true;
-            Debug.Log("<color=red>Player collided with an enemy. Restarting game...</color>");
             SceneManager.LoadScene("Game");
+        }
+        else if(collision.CompareTag("Enemy") && hasCollided == false && hasPowerUp == true)
+        {
+            //Player defeated an enemy
+            Debug.Log("<color=green>Player defeated an enemy!</color>");
+            if(collision.gameObject != null)
+            Destroy(collision.gameObject);
         }
     }
 }

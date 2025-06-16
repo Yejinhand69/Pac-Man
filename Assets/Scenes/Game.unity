@@ -11277,7 +11277,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.349001, y: 3.8070006, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1734579166}
@@ -11356,8 +11356,8 @@ MonoBehaviour:
   hasPellet: 0
   pelletSprite: {fileID: 0}
   isGhostStartingNode: 0
-  isPowerNode: 0
-  frightenedBroadcaster: {fileID: 0}
+  isPowerNode: 1
+  frightenedBroadcaster: {fileID: 11400000, guid: 18e7c16e31fa19848b1ffed2b45f77a6, type: 2}
 --- !u!1 &318963923
 GameObject:
   m_ObjectHideFlags: 0
@@ -25176,7 +25176,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.349001, y: -4.513, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1918079991}
@@ -25255,8 +25255,8 @@ MonoBehaviour:
   hasPellet: 0
   pelletSprite: {fileID: 0}
   isGhostStartingNode: 0
-  isPowerNode: 0
-  frightenedBroadcaster: {fileID: 0}
+  isPowerNode: 1
+  frightenedBroadcaster: {fileID: 11400000, guid: 18e7c16e31fa19848b1ffed2b45f77a6, type: 2}
 --- !u!1 &731592544
 GameObject:
   m_ObjectHideFlags: 0
@@ -54062,7 +54062,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -4.011, y: 3.8070006, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1819326757}
@@ -54141,8 +54141,8 @@ MonoBehaviour:
   hasPellet: 0
   pelletSprite: {fileID: 0}
   isGhostStartingNode: 0
-  isPowerNode: 0
-  frightenedBroadcaster: {fileID: 0}
+  isPowerNode: 1
+  frightenedBroadcaster: {fileID: 11400000, guid: 18e7c16e31fa19848b1ffed2b45f77a6, type: 2}
 --- !u!1 &1631122516
 GameObject:
   m_ObjectHideFlags: 0
@@ -59823,6 +59823,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1317278643}
   animator: {fileID: 1317278644}
   hasCollided: 0
+  hasPowerUp: 0
+  frightenedListener: {fileID: 11400000, guid: 18e7c16e31fa19848b1ffed2b45f77a6, type: 2}
 --- !u!61 &1781732393
 BoxCollider2D:
   m_ObjectHideFlags: 0

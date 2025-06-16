@@ -137,7 +137,7 @@ public class EnemyController : MonoBehaviour, IGameEventListener
             spriteRenderer.color = new Color(37f / 255f, 73f / 255f, 255f / 255f); //blue
         }
         else if (ghostType == GhostType.pink)
-        {
+        {                                                                                                  
             spriteRenderer.color = new Color(255f / 255f, 57f / 255f, 183f / 255f); //pink
         }
         else if (ghostType == GhostType.orange)

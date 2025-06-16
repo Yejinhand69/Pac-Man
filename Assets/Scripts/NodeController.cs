@@ -29,7 +29,11 @@ public class NodeController : MonoBehaviour
     public SpriteRenderer pelletSprite;
 
     [Header("Boolean")]
-    public bool isGhostStartingNode = false;    
+    public bool isGhostStartingNode = false;
+    public bool isPowerNode = false;
+
+    [Header("Game Events")]
+    [SerializeField] private GameEvent frightenedBroadcaster;
     void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -136,6 +140,12 @@ public class NodeController : MonoBehaviour
             hasPellet = false;
             pelletSprite.enabled = false;
             gameManager.CollectedPellet(this);
+
+            if (isPowerNode)
+            {
+                //If the pellet is a power pellet, trigger some relevant game logic
+                frightenedBroadcaster?.Raise();
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
+using NUnit.Framework.Constraints;
+using System.Collections;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IGameEventListener
 {
     public enum GhostNodesStatesEnum
     {
@@ -38,6 +40,14 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform redGhostTransform;
 
+    [Header("Game Events")]
+    [SerializeField] private GameEvent frightenedListener;
+
+    [Header("Color Changing")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private float colorChangeInterval = 0.2f;
+    private Coroutine colorChangeCoroutine;
+
     [Header("Developer Testing Kit")]
     public bool forceRespawn = false;
 
@@ -68,6 +78,90 @@ public class EnemyController : MonoBehaviour
 
         movementController.currentNode = startingNode;
         transform.position = startingNode.transform.position;
+    }
+
+    private void OnEnable()
+    {
+        frightenedListener.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        frightenedListener.UnregisterListener(this);
+        StopColorChange();
+    }
+
+    public void OnEventRaised(GameEvent gameEvent, Component sender, object[] args)
+    {
+        if (gameEvent == frightenedListener)
+        {
+            StartColorChange();
+        }
+    }
+    private void StartColorChange()
+    {
+        if(colorChangeCoroutine != null)
+        {
+            StopCoroutine(colorChangeCoroutine);
+        }
+
+        colorChangeCoroutine = StartCoroutine(ColorChangeCoroutine(3f));
+    }
+
+    private void StopColorChange()
+    {
+        if (colorChangeCoroutine != null)
+        {
+            StopCoroutine(colorChangeCoroutine);
+            colorChangeCoroutine = null;
+        }
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = Color.white;
+        }
+    }
+
+    private IEnumerator ColorChangeCoroutine(float duration)
+    {
+        Coroutine loop = StartCoroutine(ColorLoop());
+
+        yield return new WaitForSeconds(duration);
+
+        StopCoroutine(loop);
+        
+        if(ghostType == GhostType.red)
+        {
+            spriteRenderer.color = new Color(250f / 255f, 0f / 255f, 0f / 255f); //red
+        }
+        else if (ghostType == GhostType.blue)
+        {
+            spriteRenderer.color = new Color(37f / 255f, 73f / 255f, 255f / 255f); //blue
+        }
+        else if (ghostType == GhostType.pink)
+        {
+            spriteRenderer.color = new Color(255f / 255f, 57f / 255f, 183f / 255f); //pink
+        }
+        else if (ghostType == GhostType.orange)
+        {
+            spriteRenderer.color = new Color(255f / 255f, 107f / 255f, 0f / 255f); //orange
+        }
+
+        colorChangeCoroutine = null;
+    }
+
+    private IEnumerator ColorLoop()
+    {
+        bool toggle = false;
+
+        while (true)
+        {
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = toggle ? Color.blue : Color.white;
+                toggle = !toggle;
+            }
+
+            yield return new WaitForSeconds(colorChangeInterval);
+        }
     }
 
     private void Update()

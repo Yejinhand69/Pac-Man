@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,10 +9,14 @@ public class PlayerController : MonoBehaviour
     [Header("Sprite Renderer Reference")]
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
+
+    [Header("Collision Detection")]
+    [SerializeField] private bool hasCollided = false;
     void Awake()
     {
         movementController = GetComponent<MovementController>();
         movementController.lastMovingDirection = "left";
+        hasCollided = false;
     }
     void Update()
     {
@@ -58,5 +63,16 @@ public class PlayerController : MonoBehaviour
 
         spriteRenderer.flipX = flipX;
         spriteRenderer.flipY = flipY;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Enemy") && hasCollided == false)
+        {
+            //Game restart logic here
+            hasCollided = true;
+            Debug.Log("<color=red>Player collided with an enemy. Restarting game...</color>");
+            SceneManager.LoadScene("Game");
+        }
     }
 }
